@@ -32,22 +32,51 @@
         </form>
 
         <h2>Welcome ${pageContext.request.userPrincipal.name} | 
-       
+       <span>${success}</span>
         <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>
 <c:url value="/fileUpload" var="fileUpload" />
-<%-- <form id="submitButton" method="post" enctype="multipart/form-data"
-  action="${contextPath}/fileUpload">
-    <input type="file"   accept=".xls,.xlsx" /> <input
-      type="submit" value="Upload file" />
-</form> --%>
 
   <h1>Please upload a file</h1>
         <form method="post" action="${contextPath}/fileUpload" enctype="multipart/form-data">
+         
          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="text" name="name"/>
             <input type="file" name="file"/>
             <input type="submit"/>
         </form>
+        
+         <form action="${contextPath}/readPOI">
+           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+           <input type="text" name="name"/>
+        <input type="submit" value="Display file content" />
+    </form>
+        
+        <c:if test="${not empty data}">
+    <table style="border: 1px solid black; border-collapse: collapse;">
+        <c:forEach items="${data}" var="row">
+            <tr>
+                <c:forEach items="${row.value}" var="cell">
+                    <td style="border:1px solid black;height:20px;width:100px;
+                      background-color:${cell.bgColor};color:${cell.textColor};
+                      font-weight:${cell.textWeight};font-size:${cell.textSize}pt;">
+                      ${cell.content}
+                    </td>
+                </c:forEach>
+            </tr>
+        </c:forEach>
+    </table>
+</c:if>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     </c:if>
 
 </div>
