@@ -58,26 +58,8 @@ public class UserController {
             model.addAttribute("message", "You have been logged out successfully.");
 
         return "login";
-    }
-    private String fileLocation;
-    
-    
- /*   @RequestMapping(method = RequestMethod.GET, value = "/uploadFileUrl")
-    public String readPOI(Model model) throws IOException {
-     
-      if (fileLocation != null) {
-          if (fileLocation.endsWith(".xlsx") || fileLocation.endsWith(".xls")) {
-              Map<Integer, List<MyCell>> data
-                = excelPOIHelper.readExcel(fileLocation);
-              model.addAttribute("data", data);
-          } else {
-              model.addAttribute("message", "Not a valid excel file!");
-          }
-      } else {
-          model.addAttribute("message", "File missing! Please upload an excel file.");
-      }
-      return "excel";
-    }*/
+    }    
+
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String welcome(Model model) {
         return "welcome";
