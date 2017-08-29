@@ -15,6 +15,7 @@ public class TimeSheet {
     private String taskDescription;
     private Double loggedHours;
     private String remarks;
+    private Long supCode;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -73,4 +74,13 @@ public class TimeSheet {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+
+	public Long getSupCode() {
+		return supCode;
+	}
+
+	public void setSupCode(Long supCode) {
+		this.supCode = supCode;
+	}
+	
 }

@@ -22,6 +22,7 @@ public class TimeSheetServiceImpl implements TimeSheetService {
     	file.setProjectCode(file.getProjectCode());
     	file.setRemarks(file.getRemarks());
     	file.setTaskDescription(file.getTaskDescription());
+    	file.setSupCode(file.getSupCode());
     	TimeSheet.save(file);
     }
     

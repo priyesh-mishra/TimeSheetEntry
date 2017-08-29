@@ -140,6 +140,8 @@ public class FileuploadController {
 		            		timeSheet.setEmpId(Math.round(cell.getNumericCellValue()));
 		            	}else if(cell.getColumnIndex()==4) {
 		            		timeSheet.setLoggedHours(cell.getNumericCellValue());
+		            	}else if(cell.getColumnIndex()==6) {
+		            		timeSheet.setSupCode(Math.round(cell.getNumericCellValue()));
 		            	}
 		              break;
 		            case Cell.CELL_TYPE_STRING:
