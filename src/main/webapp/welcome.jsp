@@ -16,7 +16,10 @@
     <title>Create an account</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-
+     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+     
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -36,53 +39,60 @@
         <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>
 <c:url value="/fileUpload" var="fileUpload" />
 
-  <h1>Please upload a file</h1>
-        <form method="post" action="${contextPath}/fileUpload" enctype="multipart/form-data">
+  <h3>Please upload a file</h3>
+        <form class="w3-container" method="post" action="${contextPath}/fileUpload" enctype="multipart/form-data" >
          
          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="text" name="name"/>
+            
             <input type="file" name="file"/>
             <input type="submit"/>
         </form>
-        
-         <form action="${contextPath}/readPOI">
-           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-           <select name="selectedFile">
+        <br>
+       
+         <form action="${contextPath}/readPOI" class="w3-container" >
+           <input class="w3-input" type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+<!--            <input type="text" name="name"/> -->
+  <select name="selectedFile">
 				    <c:forEach var="line" items="${fileList}">
 				        <option><c:out value="${line}"/></option>
 				    </c:forEach>
  		</select>
-           <input type="text" name="name"/>
         <input type="submit" value="Display file content" />
     </form>
         
         <c:if test="${not empty data}">
-    <table style="border: 1px solid black; border-collapse: collapse;">
-        <c:forEach items="${data}" var="row">
-            <tr>
+        <br>
+    <table>
+          <c:forEach items="${data}" var="row" varStatus="status">
+          <c:choose>
+ 			<c:when test="${status.first}">
+           <thead style="background-color: #4CAF50; color: white;">
+                <tr>
                 <c:forEach items="${row.value}" var="cell">
-                    <td style="border:1px solid black;height:20px;width:100px;
-                      background-color:${cell.bgColor};color:${cell.textColor};
-                      font-weight:${cell.textWeight};font-size:${cell.textSize}pt;">
-                      ${cell.content}
+                    <td>
+                       ${cell.content}
                     </td>
                 </c:forEach>
             </tr>
-        </c:forEach>
+            </thead>
+             </c:when>
+         <c:otherwise>
+            <tr class="${status.index % 2 == 0 ? 'even' : 'odd'}">
+                <c:forEach items="${row.value}" var="cell">
+		     		  <td>
+                       ${cell.content}
+                   	 </td>
+                   	 
+                </c:forEach>
+            </tr>
+         </c:otherwise>
+        </c:choose>
+       </c:forEach>
+        
     </table>
 </c:if>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    </c:if>
+ </c:if>
 
 </div>
 <!-- /container -->
