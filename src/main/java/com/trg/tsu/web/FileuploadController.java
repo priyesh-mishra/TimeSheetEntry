@@ -26,6 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,6 +54,7 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import java.util.stream.IntStream;
 
 import com.trg.tsu.model.TimeSheet;
+import com.trg.tsu.model.User;
 import com.trg.tsu.service.TimeSheetService;
 import com.trg.tsu.service.UserService;
 
@@ -65,7 +67,7 @@ public class FileuploadController {
 	@Autowired
 	private TimeSheetService fileService;
 	
-	
+	private org.springframework.security.core.userdetails.User loggedUser;
 	public final static int CELL_TYPE_NUMERIC = 0;
 
 	private static String UPLOADED_FOLDER = "D://temp//";
@@ -87,7 +89,7 @@ public class FileuploadController {
 	    }
 	 
 	 @RequestMapping(method = RequestMethod.GET, value = "/readPOI")
-	 public String readPOI(Model model,String filePath,@RequestParam("name") String name) throws IOException {
+	 public String readPOI(Model model,String filePath,@RequestParam("selectedFile") String name) throws IOException {
 		String fileLocation = UPLOADED_FOLDER.concat(File.separator.concat(name));
 	   if (fileLocation != null) {
 	       if (fileLocation.endsWith(".xlsx") || fileLocation.endsWith(".xls")) {
@@ -104,6 +106,8 @@ public class FileuploadController {
 	 }
 	 
 	 public List importExcelFile(String filePath, String fileName) {
+		 	 loggedUser = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		 	 User user = userService.findByUsername(loggedUser.getUsername());
 		    DataFormatter formatter = new DataFormatter(Locale.UK);
 		    List excelDataList = new ArrayList();
 		    try {
@@ -161,6 +165,8 @@ public class FileuploadController {
 		            default:
 		              break;
 		          }
+		          timeSheet.setUser(user);
+		          timeSheet.setFileName(fileName);
 		          nextCell++;
 		        }
 		        excelDataList.add(timeSheet);

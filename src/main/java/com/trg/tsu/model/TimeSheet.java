@@ -13,9 +13,11 @@ public class TimeSheet {
     private String date;
     private String projectCode;
     private String taskDescription;
+    private String fileName;
     private Double loggedHours;
     private String remarks;
     private Long supCode;
+    private User user;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -82,5 +84,24 @@ public class TimeSheet {
 	public void setSupCode(Long supCode) {
 		this.supCode = supCode;
 	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id", nullable = false)
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
 	
 }

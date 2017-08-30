@@ -1,13 +1,22 @@
 package com.trg.tsu.web;
 
+import com.trg.tsu.dao.TimeSheetDao;
 import com.trg.tsu.model.User;
 import com.trg.tsu.service.SecurityService;
 import com.trg.tsu.service.UserService;
 import com.trg.tsu.validator.UserValidator;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+
+import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +29,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class UserController {
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private EntityManager em;
     @Autowired
     private SecurityService securityService;
-
+    @Autowired
+    private TimeSheetDao timeSheet;
     @Autowired
     private UserValidator userValidator;
 
@@ -62,6 +73,9 @@ public class UserController {
 
     @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
     public String welcome(Model model) {
+    	
+    	List fileList = timeSheet.findAllFiles();
+    	   model.addAttribute("fileList", fileList);
         return "welcome";
     }
     

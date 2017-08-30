@@ -47,6 +47,11 @@
         
          <form action="${contextPath}/readPOI">
            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+           <select name="selectedFile">
+				    <c:forEach var="line" items="${fileList}">
+				        <option><c:out value="${line}"/></option>
+				    </c:forEach>
+ 		</select>
            <input type="text" name="name"/>
         <input type="submit" value="Display file content" />
     </form>
