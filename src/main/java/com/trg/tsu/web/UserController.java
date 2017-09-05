@@ -1,9 +1,12 @@
 package com.trg.tsu.web;
 
 import com.trg.tsu.dao.TimeSheetDao;
+import com.trg.tsu.model.Project;
 import com.trg.tsu.model.User;
+import com.trg.tsu.service.ProjectService;
 import com.trg.tsu.service.SecurityService;
 import com.trg.tsu.service.UserService;
+import com.trg.tsu.validator.ProjectValidator;
 import com.trg.tsu.validator.UserValidator;
 
 import java.io.IOException;
@@ -24,6 +27,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class UserController {
@@ -37,7 +41,10 @@ public class UserController {
     private TimeSheetDao timeSheet;
     @Autowired
     private UserValidator userValidator;
-
+    @Autowired
+	 private ProjectValidator projectValidator;
+	 @Autowired
+	 private ProjectService projectService;
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
@@ -80,4 +87,5 @@ public class UserController {
     }
     
     
+   
 }

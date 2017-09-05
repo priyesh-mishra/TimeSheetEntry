@@ -16,6 +16,7 @@
     <title>Create an account</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/menu_style.css" rel="stylesheet">
      <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
      <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -28,6 +29,23 @@
 </head>
 <body>
 <div class="container">
+<table class="nav_table"><tr><td><div class="main_menu"><ul>
+<li>
+ <a href="#">Home</a></li>
+ <li> <a href="#" >Projects</a>
+ <ul>
+	 <li> <a href="${contextPath}/abc" >Add Project</a></li>
+	 <li> <a href="#">Edit Project</a></li>
+ </ul>
+ </li>
+ <li><a href="${contextPath}/timesheet" >Timesheet</a></li>
+ <li> 
+ <a href="#" >Modify Record</a></li>
+ 
+ <li><a href="#">Contact Us</a></li></ul></div></td></tr>
+ </table>
+ </div>
+<div class="container">
 
     <c:if test="${pageContext.request.userPrincipal.name != null}">
         <form id="logoutForm" method="POST" action="${contextPath}/logout">
@@ -35,15 +53,16 @@
         </form>
 
         <h2>Welcome ${pageContext.request.userPrincipal.name} | 
-       <span>${success}</span>
+      
         <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>
 <c:url value="/fileUpload" var="fileUpload" />
 
   <h3>Please upload a file</h3>
         <form class="w3-container" method="post" action="${contextPath}/fileUpload" enctype="multipart/form-data" >
-         
+          <span>${success}</span>
          <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="text" name="name"/>
+                 
             
             <input type="file" name="file"/>
             <input type="submit"/>
@@ -60,7 +79,9 @@
  		</select>
         <input type="submit" value="Display file content" />
     </form>
-        
+    
+    
+        <h4 class="text-center"><a href="${contextPath}/abc">Add project</a></h4>
         <c:if test="${not empty data}">
         <br>
     <table>
@@ -93,7 +114,6 @@
     </table>
 </c:if>
  </c:if>
-
 </div>
 <!-- /container -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>

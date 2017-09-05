@@ -1,0 +1,17 @@
+@charset "ISO-8859-1";
+.main_menu{height:40px;line-height:40px;color:red;position:relative;font-family:Arial, sans-serif;font-size:15px;}
+.main_menu ul{padding:0px;margin:0;list-style:none;}
+.main_menu ul li{padding:0;margin:0;border-right:1px solid black;float:left;background:black;}
+.main_menu ul li a{color:white;display:block;text-decoration:none;padding:0 25px;}
+.main_menu ul li a:hover{background:lightblue;color:#000;}
+.main_menu ul li ul{display: none;width: auto;position:absolute;top:30px;padding:0px;margin:0px;}
+.main_menu ul li:hover ul{display: block;position: absolute;margin: 0;padding: 0;}
+.main_menu ul li:hover li{float: none;list-style:none;margin:0px;}
+.main_menu ul li:hover li{background:black;border-top:1px solid black;}
+.main_menu ul li:hover li a{color: #fff;padding:0 20px;display:block;width:170px;}
+.main_menu ul li li a:hover{color:#000;}
+.nav_table table, td, th {
+	border-collapse: collapse;
+    border: 1px solid #caa9a9;
+    padding: 10px;
+}

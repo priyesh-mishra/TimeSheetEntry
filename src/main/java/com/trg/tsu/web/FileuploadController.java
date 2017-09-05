@@ -84,7 +84,7 @@ public class FileuploadController {
 		 } catch (IOException e) {
 	            e.printStackTrace();
 	        }
-		   return "welcome";
+		   return "redirect:/welcome";
 	 
 	    }
 	 

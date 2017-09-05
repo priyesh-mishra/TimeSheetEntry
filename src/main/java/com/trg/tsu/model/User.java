@@ -13,6 +13,7 @@ public class User {
     private String passwordConfirm;
     private Set<Role> roles;
     private Set<TimeSheet> timeSheet;
+    private Set<Project> project;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -75,6 +76,14 @@ public class User {
 	public void setTimeSheet(Set<TimeSheet> timeSheet) {
 		this.timeSheet = timeSheet;
 	}
-    
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projOwner")
+	public Set<Project> getProject() {
+		return project;
+	}
+
+	public void setProject(Set<Project> project) {
+		this.project = project;
+	}
     
 }
