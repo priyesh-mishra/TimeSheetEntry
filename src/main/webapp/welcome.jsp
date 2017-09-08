@@ -29,7 +29,18 @@
 </head>
 <body>
 <div class="container">
-<table class="nav_table"><tr><td><div class="main_menu"><ul>
+
+    <c:if test="${pageContext.request.userPrincipal.name != null}">
+        <form id="logoutForm" method="POST" action="${contextPath}/logout">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+
+        <h2>Welcome ${pageContext.request.userPrincipal.name} | 
+      
+       <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>
+         </c:if>
+ </div>
+<div id="wrap"> <ul class="navbar">
 <li>
  <a href="${contextPath}/welcome">Home</a></li>
  <li> <a href="#" >Projects</a>
@@ -47,19 +58,8 @@
  <li> 
  <a href="#" >Modify Record</a></li>
  
- <li><a href="#">Contact Us</a></li></ul></div></td></tr>
- </table>
- </div>
-<div class="container">
-
-    <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <form id="logoutForm" method="POST" action="${contextPath}/logout">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
-
-        <h2>Welcome ${pageContext.request.userPrincipal.name} | 
-      
-        <a onclick="document.forms['logoutForm'].submit()">Logout</a></h2>
+ <li><a href="#">Contact Us</a></li></ul></div>        
+ <div class="container">
 <c:url value="/fileUpload" var="fileUpload" />
 
   <h3>Please upload a file</h3>
@@ -116,7 +116,7 @@
         
     </table>
 </c:if>
- </c:if>
+
 </div>
 <!-- /container -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
