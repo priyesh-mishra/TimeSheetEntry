@@ -31,14 +31,19 @@
 <div class="container">
 <table class="nav_table"><tr><td><div class="main_menu"><ul>
 <li>
- <a href="#">Home</a></li>
+ <a href="${contextPath}/welcome">Home</a></li>
  <li> <a href="#" >Projects</a>
  <ul>
 	 <li> <a href="${contextPath}/abc" >Add Project</a></li>
 	 <li> <a href="#">Edit Project</a></li>
  </ul>
  </li>
- <li><a href="${contextPath}/timesheet" >Timesheet</a></li>
+ <li> <a href="#" >Timesheet</a>
+ <ul>
+	 <li> <a href="${contextPath}/timesheet" >Add Record</a></li>
+	 <li> <a href="${contextPath}/searchRecord">Search Record</a></li>
+ </ul>
+ </li>
  <li> 
  <a href="#" >Modify Record</a></li>
  
@@ -80,8 +85,6 @@
         <input type="submit" value="Display file content" />
     </form>
     
-    
-        <h4 class="text-center"><a href="${contextPath}/abc">Add project</a></h4>
         <c:if test="${not empty data}">
         <br>
     <table>

@@ -1,12 +1,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <html>
     <head>
       <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=2">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <link href="${contextPath}/resources/css/menu_style.css" rel="stylesheet">
   
     <title>Add a project</title>
 
@@ -20,6 +22,30 @@
     
     </head>
     <body>
+    <div class="container">
+<table class="nav_table"><tr><td><div class="main_menu"><ul>
+<li>
+ <a href="${contextPath}/welcome">Home</a></li>
+ <li> <a href="#" >Projects</a>
+ <ul>
+	 <li> <a href="${contextPath}/abc" >Add Project</a></li>
+	 <li> <a href="#">Edit Project</a></li>
+ </ul>
+ </li>
+ <li> <a href="#" >Timesheet</a>
+ <ul>
+	 <li> <a href="${contextPath}/timesheet" >Add Record</a></li>
+	 <li> <a href="${contextPath}/searchRecord">Search Record</a></li>
+ </ul>
+ </li>
+ <li> 
+ <a href="#" >Modify Record</a></li>
+ 
+ <li><a href="#">Contact Us</a></li></ul></div></td></tr>
+ </table>
+ </div>
+    <jsp:include page="header.jsp" />  
+    
           <h2>Welcome ${pageContext.request.userPrincipal.name} | 
              
       

@@ -1,4 +1,4 @@
-package com.trg.tsu.web;
+package com.trg.tsu.controller;
 
 import java.util.List;
 

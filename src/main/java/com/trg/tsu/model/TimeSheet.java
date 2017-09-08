@@ -2,7 +2,7 @@ package com.trg.tsu.model;
 
 import javax.persistence.*;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -10,7 +10,7 @@ import java.util.Set;
 public class TimeSheet {
 	private Long id;
     private Long empId;
-    private String date;
+    private Date date;
     private String projectCode;
     private String taskDescription;
     private String fileName;
@@ -37,11 +37,11 @@ public class TimeSheet {
 		this.empId = empId;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

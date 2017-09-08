@@ -6,10 +6,14 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+ <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/menu_style.css" rel="stylesheet">
+     <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<title>Insert title here</title>
+<title>Timesheet Entry</title>
  <script>
   $( function() {
     $( "#datepicker" ).datepicker();
@@ -19,7 +23,7 @@
 <body>
 
     <form align="center" method="GET">
-        <input type="submit" id="mysubmit" value="Submit" onClick="addMoreRows(); return false;">
+        <input type="submit" id="mysubmit" value="Add new row" onClick="addMoreRows(); return false;">
     </form>
 <form action="${contextPath}/timesheetEntry" class="w3-container" >
     <table id="tbl_id" name="tbl_id" style="text-align:center" align="center" valign:"top">

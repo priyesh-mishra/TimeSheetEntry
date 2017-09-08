@@ -1,15 +1,13 @@
-package com.trg.tsu.web;
+package com.trg.tsu.controller;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -19,12 +17,10 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.hibernate.Transaction;
+import org.apache.xmlbeans.impl.regex.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -36,14 +32,17 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
-import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
+import java.util.Set;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
@@ -53,6 +52,7 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 
 import java.util.stream.IntStream;
 
+import com.trg.tsu.model.MyCell;
 import com.trg.tsu.model.TimeSheet;
 import com.trg.tsu.model.User;
 import com.trg.tsu.service.TimeSheetService;
@@ -65,7 +65,7 @@ public class FileuploadController {
 	private UserService userService;
 	
 	@Autowired
-	private TimeSheetService fileService;
+	private TimeSheetService timeSheetService;
 	
 	private org.springframework.security.core.userdetails.User loggedUser;
 	public final static int CELL_TYPE_NUMERIC = 0;
@@ -138,9 +138,18 @@ public class FileuploadController {
 		              break;
 		            case Cell.CELL_TYPE_NUMERIC:
 		              if (DateUtil.isCellDateFormatted(cell)) {
-		                String date = formatter.formatCellValue(cell);
-		                timeSheet.setDate(date);
-		              } else if(cell.getColumnIndex()==0) {
+		                String date = formatter.formatCellValue(cell);		              
+		                DateFormat df = new SimpleDateFormat("MM/dd/yy"); 
+		                Date timesheetDate;
+						try {
+							timesheetDate = df.parse(date);
+							System.out.println(timesheetDate.getYear());
+							timeSheet.setDate(timesheetDate);
+						} catch (java.text.ParseException e) {
+							e.printStackTrace();
+						}		                
+		                } 
+		               else if(cell.getColumnIndex()==0) {
 		            		timeSheet.setEmpId(Math.round(cell.getNumericCellValue()));
 		            	}else if(cell.getColumnIndex()==4) {
 		            		timeSheet.setLoggedHours(cell.getNumericCellValue());
@@ -171,12 +180,13 @@ public class FileuploadController {
 		        }
 		        excelDataList.add(timeSheet);
 		      }
+		      workbook.close();
 		      file.close();
 		    } catch (IOException e) {
 		      e.printStackTrace();
 		      return null;
 		    }	
-		    fileService.save(excelDataList);
+		    timeSheetService.save(excelDataList);
 		    return excelDataList;
 
 		  }
@@ -216,9 +226,11 @@ public class FileuploadController {
 	            break;
 	        case NUMERIC:
 	            if (DateUtil.isCellDateFormatted(cell)) {
-	                content = cell.getDateCellValue() + "";
+		            DateFormat df = new SimpleDateFormat("MM/dd/yy"); 
+	                content = df.format(cell.getDateCellValue()) + "";
 	            } else {
-	                content = cell.getNumericCellValue() + "";
+	            	DecimalFormat decimalFormat=new DecimalFormat("#.#");
+	                content = decimalFormat.format(cell.getNumericCellValue()) + "";
 	            }
 	            break;
 	        case BOOLEAN:
@@ -334,5 +346,47 @@ public class FileuploadController {
 	            }
 	        }
 	        return data;
+	    }
+	    
+	    
+	    public String writeTimesheet(String fileName) {
+	    	HSSFWorkbook workbook = new HSSFWorkbook();
+	    	HSSFSheet sheet = workbook.createSheet("tasksheet");
+
+	    	Map<String, Object[]> data = timeSheetService.findByFileName(fileName);
+
+	    	Set<String> keyset = data.keySet();
+	    	int rownum = 0;
+	    	for (String key : keyset) {
+	    	    Row row = sheet.createRow(rownum++);
+	    	    Object [] objArr = data.get(key);
+	    	    int cellnum = 0;
+	    	    for (Object obj : objArr) {
+	    	        Cell cell = row.createCell(cellnum++);
+	    	        if(obj instanceof Integer) 
+	    	            cell.setCellValue((Integer)obj);
+	    	        else if(obj instanceof String)
+	    	            cell.setCellValue((String)obj);
+	    	        else if(obj instanceof Double)
+	    	            cell.setCellValue((Double)obj);
+	    	        else if(obj instanceof Long)
+	    	            cell.setCellValue((Long)obj);
+	    	    }
+	    	}
+
+	    	try {
+	    	    //new excel file created by fileoutput stream object 
+	    	    FileOutputStream out = 
+	    	            new FileOutputStream(new File(UPLOADED_FOLDER+fileName));
+	    	    workbook.write(out);
+	    	    out.close();
+	    	    System.out.println("Excel written successfully..");
+
+	    	} catch (FileNotFoundException e) {
+	    	    e.printStackTrace();
+	    	} catch (IOException e) {
+	    	    e.printStackTrace();
+	    	}
+	    	return "file reading is completed";
 	    }
 }
